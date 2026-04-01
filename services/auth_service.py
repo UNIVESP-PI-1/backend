@@ -22,7 +22,7 @@ def create(schema, session):
         session.commit()
         session.refresh(new_user)
         
-        return {'message': f'Usuário {new_user.name} cadastrado com sucesso'}
+        return new_user
 
     except Exception as e:
         session.rollback()

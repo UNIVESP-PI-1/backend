@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Header
 from core.dependencies import get_session, get_current_user
 from services.auth_service import create, auth_user, gen_token, validate_token
 from models import User
-from schemas import UserSchema, LoginSchema
+from schemas.auth_schema import UserCreateSchema, UserResponseSchema, LoginSchema
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
 
@@ -10,10 +10,15 @@ auth_router = APIRouter(prefix='/auth', tags=['auth'])
 def list_users(user: User = Depends(get_current_user))->dict:
     return {'users': user}
 
-@auth_router.post('/create_acount')
-def create_acount(schema: UserSchema, session = Depends(get_session)):
 
-    return create(schema, session)
+@auth_router.post('/create_acount')
+def create_acount(schema: UserCreateSchema, session = Depends(get_session)):
+    new_user = create(schema, session)
+
+    return {
+        "message": "Usuário criado com sucesso",
+        "product": UserResponseSchema.model_validate(new_user)
+    }
     
 
 @auth_router.post('/login')
