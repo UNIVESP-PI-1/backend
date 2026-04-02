@@ -46,7 +46,7 @@ def auth_user(schema, session):
     reflesh_token = gen_token(user.id, 'refresh', REFRESH_TOKEN_EXPIRE_MINUTS)
     return {
         'message': 'Usuario logado',
-        'access_token': access_token,
+        'token': access_token,
         'reflesh_token': reflesh_token,
         'token_type': 'Bearer'
         }
