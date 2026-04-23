@@ -3,7 +3,7 @@ from fastapi import HTTPException
 import bcrypt
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
-from core.config import ACCESS_TOKEN_EXPIRE_MINUTS, ALGORITHM, SECRET_KEY, REFRESH_TOKEN_EXPIRE_MINUTS
+from core.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY, REFRESH_TOKEN_EXPIRE_MINUTES
 
 def create(schema, session):
     user = session.query(User).filter(User.email == schema.email).first()
@@ -43,7 +43,7 @@ def auth_user(schema, session):
         raise HTTPException(status_code=400, detail="Email ou senha incorretos") 
     
     access_token = gen_token(user.id)
-    reflesh_token = gen_token(user.id, 'refresh', REFRESH_TOKEN_EXPIRE_MINUTS)
+    reflesh_token = gen_token(user.id, 'refresh', REFRESH_TOKEN_EXPIRE_MINUTES)
     return {
         'message': 'Usuario logado',
         'token': access_token,
@@ -51,7 +51,7 @@ def auth_user(schema, session):
         'token_type': 'Bearer'
         }
     
-def gen_token(user_id, token_type = 'access', expire_token=ACCESS_TOKEN_EXPIRE_MINUTS):
+def gen_token(user_id, token_type = 'access', expire_token=ACCESS_TOKEN_EXPIRE_MINUTES):
     expire_date = datetime.now(timezone.utc) + timedelta(minutes=expire_token)
     
     expire_timestamp = int(expire_date.timestamp())

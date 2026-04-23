@@ -111,6 +111,12 @@ ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
+## Gere a SECRETE_KEY
+
+```bash
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
+```
+
 ---
 
 ## 🧪 Observações
