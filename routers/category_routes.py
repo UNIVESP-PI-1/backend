@@ -31,7 +31,7 @@ def delet_category(id:int, session = Depends(get_session), user = Depends(get_cu
     return delete_category
 
 
-@category_router.patch('/{id}')
+@category_router.put('/{id}')
 def edit_category(
     id: int, 
     schema: CategoryUpsertSchema,
