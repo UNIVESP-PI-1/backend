@@ -10,7 +10,10 @@ def create(schema, session) -> Product:
             sku=schema.sku,
             barcode=schema.barcode,
             cost_price=schema.cost_price,
-            sale_price=schema.sale_price
+            sale_price=schema.sale_price,
+            stock_quantity = schema.stock_quantity,
+            min_stock = schema.min_stock,
+            status = schema.status,
         )
 
         session.add(new_product)
@@ -80,11 +83,21 @@ def update(session, product_id: int, schema):
     if schema.sale_price is not None:
         product.sale_price = schema.sale_price
 
+    if schema.stock_quantity is not None:
+        product.stock_quantity = schema.stock_quantity
+
+    if schema.min_stock is not None:
+        product.min_stock = schema.min_stock
+
+    if schema.status is not None:
+        product.status = schema.status
+
     try:
-        session.commit()
-        session.refresh(product)
-        return product
+          session.commit()
+          session.refresh(product)
+          return product
 
     except Exception:
         session.rollback()
         raise HTTPException(status_code=500, detail="Erro ao atualizar produto")
+    
