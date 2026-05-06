@@ -28,6 +28,29 @@ def create(schema, session):
         session.rollback()
         raise HTTPException(status_code=500, detail="Erro interno ao processar o cadastro")
 
+def get_all(session):
+     users = session.query(User).all()
+     return users
+
+def update_user(session, user_id: int, schema):
+
+    user = session.query(User).filter(User.id == user_id).first()
+    
+    if not User:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    
+    user.name = schema.name
+    user.email = schema.email
+    user.password = schema.password
+    
+    try:
+        session.commit()
+        session.refresh(user)
+        return user
+    except Exception:
+        session.rollback()
+        raise HTTPException(status_code=500, detail="Erro ao atualizar usuário")
+
 def auth_user(schema, session):
     user = session.query(User).filter(User.email==schema.email).first()
 
@@ -50,7 +73,22 @@ def auth_user(schema, session):
         'reflesh_token': reflesh_token,
         'token_type': 'Bearer'
         }
+
+def delete(session, id: int):
+    user = session.query(User).filter(User.id == id).first()
     
+    if not user:
+        raise HTTPException(status_code=404, detail="Categoria não encontrada")
+    
+    try:
+        session.delete(user)
+        session.commit()
+        return {"message": "Usuário removido com sucesso"}
+    except Exception:
+        session.rollback()
+        raise HTTPException(status_code=500, detail="Erro ao deletar usuário")
+
+
 def gen_token(user_id, token_type = 'access', expire_token=ACCESS_TOKEN_EXPIRE_MINUTES):
     expire_date = datetime.now(timezone.utc) + timedelta(minutes=expire_token)
     
