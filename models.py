@@ -52,5 +52,10 @@ class Product(Base):
     cost_price = Column(Integer, nullable=False)
     sale_price = Column(Integer, nullable=False)
 
+    stock_quantity = Column(Integer, nullable=False)
+    min_stock = Column(Integer, nullable=False)
+
+    status = Column(Boolean, default=True)
+
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
