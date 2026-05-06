@@ -38,7 +38,7 @@ def edit_category(
     session = Depends(get_session),
     user = Depends(get_current_user)
 ):
-    updated_category = update_category(session, id, schema.name)
+    updated_category = update_category(session, id, schema)
 
     return {
             'message': 'Categoria Atualizada com sucesso',

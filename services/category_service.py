@@ -3,7 +3,7 @@ from fastapi import HTTPException
 
 def create(schema, session)->dict:
     try:        
-        new_category = Category(schema.name)
+        new_category = Category(schema.name, schema.description)
         session.add(new_category)
         session.commit()
         session.refresh(new_category)
@@ -32,14 +32,15 @@ def delete(session, id: int):
         session.rollback()
         raise HTTPException(status_code=500, detail="Erro ao deletar categoria")
     
-def update_category(session, category_id: int, new_name: str):
+def update_category(session, category_id: int, schema):
 
     category = session.query(Category).filter(Category.id == category_id).first()
     
     if not category:
         raise HTTPException(status_code=404, detail="Categoria não encontrada")
     
-    category.name = new_name
+    category.name = schema.name
+    category.description = schema.description
     
     try:
         session.commit()

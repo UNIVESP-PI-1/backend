@@ -10,7 +10,7 @@ class CategoryUpsertSchema(BaseModel):
 class CategoryResponseSchema(BaseModel):
     id: int
     name: str
-    description: str
+    description: Optional[str] = None
     created_at: datetime
 
     class Config:
