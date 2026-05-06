@@ -3,7 +3,7 @@ from core.dependencies import get_session, get_current_user
 from schemas.product_schema import ProductCreateSchema, ProductResponseSchema, ProductUpdateSchema
 from services.product_service import create, get_all, get_by_id, delete, update
 
-product_router = APIRouter(prefix='/products', tags=['products'])
+product_router = APIRouter(prefix='/product', tags=['product'])
 
 
 @product_router.get('/')

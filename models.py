@@ -28,11 +28,13 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
+    description = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True))
 
-    def __init__(self, name):
+    def __init__(self, name, description):
         self.name = name
         self.created_at = datetime.now(timezone.utc)
+        self.description = description
 
 class Product(Base):
     __tablename__ = 'products'

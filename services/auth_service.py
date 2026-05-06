@@ -32,7 +32,7 @@ def auth_user(schema, session):
     user = session.query(User).filter(User.email==schema.email).first()
 
     if not user:
-        raise HTTPException(status_code=400, detail="Email ou senha incorretos")
+        raise HTTPException(status_code=401, detail="Email ou senha incorretos")
     
     password_match = bcrypt.checkpw(
         schema.password.encode('utf-8'), 
@@ -40,7 +40,7 @@ def auth_user(schema, session):
     )
 
     if not password_match:
-        raise HTTPException(status_code=400, detail="Email ou senha incorretos") 
+        raise HTTPException(status_code=401, detail="Email ou senha incorretos") 
     
     access_token = gen_token(user.id)
     reflesh_token = gen_token(user.id, 'refresh', REFRESH_TOKEN_EXPIRE_MINUTES)
