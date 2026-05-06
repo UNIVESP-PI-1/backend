@@ -23,7 +23,7 @@ def get_product(
     return get_by_id(session, id)
 
 
-@product_router.post('/')
+@product_router.post('/create')
 def create_product(
     schema: ProductCreateSchema,
     session = Depends(get_session),
@@ -46,7 +46,7 @@ def delete_product(
     return delete(session, id)
 
 
-@product_router.patch('/{id}')
+@product_router.put('/{id}')
 def update_product(
     id: int,
     schema: ProductUpdateSchema,
