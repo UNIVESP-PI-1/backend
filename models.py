@@ -52,8 +52,8 @@ class Product(Base):
     cost_price = Column(Integer, nullable=False)
     sale_price = Column(Integer, nullable=False)
 
-    stock_quantity = Column(Integer, nullable=False)
-    min_stock = Column(Integer, nullable=False)
+    stock_quantity = Column(Integer, nullable=True, default=0)
+    min_stock = Column(Integer, nullable=True, default=0)
 
     status = Column(Boolean, default=True)
 

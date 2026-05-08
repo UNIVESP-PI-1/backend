@@ -9,9 +9,9 @@ class ProductCreateSchema(BaseModel):
     barcode: Optional[str] = None
     cost_price: int
     sale_price: int
-    stock_quantity = int
-    min_stock = int
-    status = bool
+    stock_quantity: int
+    min_stock: int
+    status: bool
 
 class ProductUpdateSchema(BaseModel):
     name: Optional[str] = None
@@ -21,9 +21,9 @@ class ProductUpdateSchema(BaseModel):
     barcode: Optional[str] = None
     cost_price: Optional[int] = None
     sale_price: Optional[int] = None
-    stock_quantity = Optional[int] = None
-    min_stock = Optional[int] = None
-    status = Optional[bool] = None
+    stock_quantity: Optional[int] = None
+    min_stock: Optional[int] = None
+    status: Optional[bool] = None
 
 class ProductResponseSchema(BaseModel):
     id: int
@@ -34,9 +34,9 @@ class ProductResponseSchema(BaseModel):
     barcode: Optional[str]
     cost_price: int
     sale_price: int
-    stock_quantity = int
-    min_stock = int
-    status = bool
+    stock_quantity: int
+    min_stock: int
+    status: bool
 
     class Config:
         from_attributes = True
