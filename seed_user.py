@@ -11,19 +11,28 @@ class UserSchema:
         self.email = email
         self.password = password
 
-new_user_data = UserSchema(
-    name="Novo Usuário",
-    email="novo@email.com",
-    password="sua_senha_segura"
-)
-
-try:
-    new_user = auth_service.create(new_user_data, session)
+def run_seed():
+    print("--- Cadastro de Usuário Inicial ---")
     
-    print(f"Usuário '{new_user.name}' criado com sucesso com ID: {new_user.id}!")
+    name = input("Nome do usuário: ")
+    email = input("E-mail: ")
+    password = input("Senha: ")
 
-except Exception as e:
-    print(f"Erro ao adicionar usuário: {e}")
+    new_user_data = UserSchema(
+        name=name,
+        email=email,
+        password=password
+    )
 
-finally:
-    session.close()
+    try:
+        new_user = auth_service.create(new_user_data, session)
+        print(f"\n✅ Usuário '{new_user.name}' criado com sucesso (ID: {new_user.id})!")
+
+    except Exception as e:
+        print(f"\n❌ Erro ao adicionar usuário: {e}")
+
+    finally:
+        session.close()
+
+if __name__ == "__main__":
+    run_seed()

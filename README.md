@@ -24,7 +24,7 @@ Crie e ative o ambiente virtual:
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux
+source venv/bin/activate  # Linux / macOS
 venv\Scripts\activate     # Windows
 ```
 
@@ -32,6 +32,27 @@ Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
+```
+
+---
+
+## 🔐 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```bash
+
+  cp .env.example .env # Linux / macOS
+  copy .env.example .env # Windows
+
+```
+
+## Gere a SECRETE_KEY
+
+Copie gere a SECRETE_KEY, copie e cole em seu .env
+
+```bash
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 ```
 
 ---
@@ -45,13 +66,17 @@ O projeto usa **SQLite** (`base.db`).
 ```bash
 alembic upgrade head
 ```
+---
 
-Se precisar criar uma nova migration:
+## 🌱 Populando o Banco (Seeding)
+
+Para criar o primeiro usuário (Admin) ou cadastrar novos usuários rapidamente, utilize o script de seed. Certifique-se de que as migrations já foram executadas antes deste passo.
+
+Ao rodar o comando, o terminal solicitará o **Nome**, **E-mail** e **Senha**.
 
 ```bash
-alembic revision --autogenerate -m "mensagem"
+python seed_user.py
 ```
-
 ---
 
 ## ▶️ Executando a aplicação
@@ -97,24 +122,7 @@ http://127.0.0.1:8000
 ├── main.py           # Entrada da aplicação
 ├── alembic.ini       # Configuração do Alembic
 ├── requirements.txt  # Dependências
-```
-
----
-
-## 🔐 Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto (opcional):
-
-```env
-SECRET_KEY=sua_chave_secreta
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-```
-
-## Gere a SECRETE_KEY
-
-```bash
-python3 -c "import secrets; print(secrets.token_urlsafe(32))"
+├── seed_user.py      # Script para criar usuário inicial
 ```
 
 ---
@@ -148,6 +156,7 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 alembic upgrade head
+python seed_user.py
 uvicorn main:app --reload
 ```
 
