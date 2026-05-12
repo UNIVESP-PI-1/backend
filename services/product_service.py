@@ -39,6 +39,13 @@ def get_by_id(session, product_id: int):
 
     return product
 
+def get_by_barcode(session, product_barcode):
+    product = session.query(Product).filter(Product.barcode == product_barcode).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+    return product
 
 def delete(session, product_id: int):
     product = session.query(Product).filter(Product.id == product_id).first()
