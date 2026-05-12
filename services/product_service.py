@@ -39,7 +39,7 @@ def get_by_id(session, product_id: int):
 
     return product
 
-def get_by_barcode(session, product_barcode):
+def get_by_barcode(session, product_barcode: str):
     product = session.query(Product).filter(Product.barcode == product_barcode).first()
 
     if not product:

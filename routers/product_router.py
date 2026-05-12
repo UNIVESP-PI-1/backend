@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from core.dependencies import get_session, get_current_user
 from schemas.product_schema import ProductCreateSchema, ProductResponseSchema, ProductUpdateSchema
-from services.product_service import create, get_all, get_by_id, delete, update
+from services.product_service import create, get_all, get_by_id, delete, update, get_by_barcode
 
 product_router = APIRouter(prefix='/product', tags=['product'])
 
@@ -21,6 +21,14 @@ def get_product(
     user = Depends(get_current_user)
 ):
     return get_by_id(session, id)
+
+@product_router.get('/barcode/{barcode}')
+def get_product_by_barcode(
+    barcode: str,
+    session = Depends(get_session),
+    user = Depends(get_current_user)
+):
+    return get_by_barcode(session, barcode)
 
 
 @product_router.post('/create')
