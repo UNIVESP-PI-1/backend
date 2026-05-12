@@ -33,21 +33,25 @@ def get_all(session):
      return users
 
 def update_user(session, user_id: int, schema):
-
     user = session.query(User).filter(User.id == user_id).first()
     
-    if not User:
+    if not user:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
     
     user.name = schema.name
     user.email = schema.email
-    user.password = schema.password
     
     try:
+        if schema.password:
+            pwd_bytes = schema.password.encode('utf-8')
+            salt = bcrypt.gensalt()
+            password_hash = bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
+            user.password = password_hash
+            
         session.commit()
         session.refresh(user)
         return user
-    except Exception:
+    except Exception as e:
         session.rollback()
         raise HTTPException(status_code=500, detail="Erro ao atualizar usuário")
 
