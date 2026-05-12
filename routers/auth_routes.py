@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Header
 from core.dependencies import get_session, get_current_user
 from services.auth_service import create, auth_user, gen_token, validate_token, get_all, update_user, delete
 from models import User
-from schemas.auth_schema import UserCreateSchema, UserResponseSchema, LoginSchema
+from schemas.auth_schema import UserCreateSchema, UserResponseSchema, LoginSchema, UserUpdateSchema
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
 
@@ -23,7 +23,7 @@ def create_acount(schema: UserCreateSchema, session = Depends(get_session)):
 @auth_router.put('/{id}')
 def edit_user(
     id: int, 
-    schema: UserCreateSchema,
+    schema: UserUpdateSchema,
     session = Depends(get_session),
     user = Depends(get_current_user)
 ):
