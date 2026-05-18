@@ -77,6 +77,12 @@ Ao rodar o comando, o terminal solicitará o **Nome**, **E-mail** e **Senha**.
 ```bash
 python seed_user.py
 ```
+
+Para cadastrar produtos:
+
+```bash
+python seed_product.py
+```
 ---
 
 ## ▶️ Executando a aplicação
