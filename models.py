@@ -59,3 +59,19 @@ class Product(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+class ProductFlow(Base):
+    __tablename__ = 'product_flow'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    quantity = Column(Integer, nullable=False)
+    type = Column(String(20), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    def __init__(self, product_id, user_id, quantity, type, reason=None):
+        self.product_id = product_id
+        self.user_id = user_id
+        self.quantity = abs(int(quantity))
+        self.type = type
