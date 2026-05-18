@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from core.dependencies import get_session, get_current_user
 from schemas.product_schema import ProductCreateSchema, ProductResponseSchema, ProductUpdateSchema
 from services.product_service import create, get_all, get_by_id, delete, update, get_by_barcode
+from services.product_flow_service import get_flow
 
 product_router = APIRouter(prefix='/product', tags=['product'])
 
@@ -13,14 +14,13 @@ def list_products(
 ):
     return get_all(session)
 
-
-@product_router.get('/{id}')
-def get_product(
-    id: int,
+@product_router.get('/flow')
+def get_product_flow(
+    product_id: int | None = None,
     session = Depends(get_session),
     user = Depends(get_current_user)
 ):
-    return get_by_id(session, id)
+    return get_flow(session, product_id)
 
 @product_router.get('/barcode/{barcode}')
 def get_product_by_barcode(
@@ -53,6 +53,13 @@ def delete_product(
 ):
     return delete(session, id)
 
+@product_router.get('/{id}')
+def get_product(
+    id: int,
+    session = Depends(get_session),
+    user = Depends(get_current_user)
+):
+    return get_by_id(session, id)
 
 @product_router.put('/{id}')
 def update_product(
