@@ -26,7 +26,7 @@ def create(schema, session, user_id) -> Product:
                 product_id=new_product.id,
                 user_id=user_id,
                 quantity=new_product.stock_quantity,
-                flow_type="ENTRADA",
+                flow_type="CADASTRO INICIAL",
             )
 
         session.commit()
