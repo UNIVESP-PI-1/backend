@@ -37,7 +37,7 @@ def create_product(
     session = Depends(get_session),
     user = Depends(get_current_user)
 ):
-    new_product = create(schema, session)
+    new_product = create(schema, session, user.id)
 
     return {
         "message": "Produto criado com sucesso",
@@ -61,7 +61,7 @@ def update_product(
     session = Depends(get_session),
     user = Depends(get_current_user)
 ):
-    updated_product = update(session, id, schema)
+    updated_product = update(session, id, schema, user.id)
 
     return {
         "message": "Produto atualizado com sucesso",
